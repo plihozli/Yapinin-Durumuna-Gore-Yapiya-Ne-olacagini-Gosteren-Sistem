@@ -1,11 +1,12 @@
 import pandas as pd
 import sqlite3
-import numpy as np
+import Sinif as sf
 #SÖZLÜK LİSTE VE DEĞER 
 admin=("Mehmet12","Neslihan51","Batuhan34")
 admin_sfr={admin[0]:3124234,admin[1]:32432523,admin[2]:24234234}
 misafir_tc={}
-kullanıcılar=["ALi","Ayşe","Murat"]
+Kullanci_liste=["ALi","Ayşe","Murat"]
+Liste=["En sevdiğiniz süper kahraman adı","En sevdiğiniz renk","En sevdiğiniz kitap","En sevdiğiniz spor"]
 kullanıcı_sfr={"ALi":"32452"}
 veri = pd.read_csv("Kitap3.csv", sep=';',encoding='ISO-8859-1')
 y =pd.DataFrame(veri,columns=["bolge","katsayi"])
@@ -57,7 +58,8 @@ while(True):
           1.Admin girişi için 1'i tıklayınız
           2.Misajir kullanıcı için ve yapınız değerini öğrenmek için 2'ye  tıklayınız
           3.Kullanıcı girişi için 3"e tıklayınız
-          4.Şifreyi unuttum""")
+          4.Şifreyi unuttum(Çalışması için önce Kunllanıcı kayıt bölümünden kayıt yapılmalıdır)
+          5.Kullanıcı kayıt""")
     secim=int(input())
     if(secim==1):
         kullanici_adi=input("kullancı adinizi giriniz")
@@ -75,7 +77,7 @@ while(True):
                             print(kullanıcı_sfr)
                         elif(kullanici_i=="2"):
                             kullanici_silme=input("Sileceginiz kullanicinin ismini giriniz")
-                            kullanıcılar.remove(kullanici_silme)
+                            Kullanci_liste.remove(kullanici_silme)
                             print("Kullanici kaldırılmıştır Sistemin başına geri dönüyorsunuz")
                         else:
                             print("yanlış girdiniz")
@@ -164,13 +166,13 @@ while(True):
         while(T!=0):
             x=0
             kullanici_adi2=input("kullanici adinizi giriniz")
-            karakter_uzunlugu=len(kullanıcılar)   
+            karakter_uzunlugu=len(Kullanci_liste)   
             for i in range(karakter_uzunlugu):
-                if kullanici_adi2 in kullanıcılar[i-1]:
+                if kullanici_adi2 in Kullanci_liste[i-1]:
                     while(x<3):
                         sifre=input("sifrenizi giriniz")
-                        if(sifre==kullanıcı_sfr[kullanıcılar[i-1]]):                         
-                            print("hoş geldiniz",kullanıcılar[i-1])
+                        if(sifre==kullanıcı_sfr[Kullanci_liste[i-1]]):                         
+                            print("hoş geldiniz",Kullanci_liste[i-1])
                             print("""
                                   1.Bina bilgilerini girişi için 1'i
                                   2.Bina kararı için 2'i tıklayınız'
@@ -194,7 +196,7 @@ while(True):
                             print("son",3-x,"hakkınız kaldı")
                 elif((i+1)==karakter_uzunlugu):
                     print("""
- Kullanıcı adınız yanlıştır tekrar kullanıcı adını girmek istiyorsanız 1 e basınız çıkmak için herhangi bir tuşa basınız""")
+ Kullanıcı adınız yanlıştır tekrar kullanıcı adını girmek istiyorsanız 1 e  basınız çıkmak için herhangi bir tuşa basınız""")
                     hatalı_kullanici=input()
                     if(hatalı_kullanici=="1"):
                         continue
@@ -202,12 +204,43 @@ while(True):
                         T=0
                 else:
                     continue
-    else:
+    elif(secim==4):
         print("""kurtarma seçenekleri 
               1.Güvenlik sorusu ile şifre yenilemek için 1'i tıklayınız
-              2.Telefona kod ile şifre yenilemek için 2'i tıklayınız
-              3.Kurtarma epostasıyla değiştirmke için 3'ü tıklayınız""")
-    
+              2.Eğer güvenlik sorunuzun cevabını hatırlamıyorsanız yetkililere sorunuz çıkmak için herhangi tuşa basınız
+              """)
+        guvenlik=input()
+        if(guvenlik=="1"):
+            Kullanıcı_kontrol=input("kullanıcı adınızı giriniz")
+            for i in range(3,len(Kullanci_liste),1):
+                if Kullanıcı_kontrol == str(Kullanci_liste[i].kullanici_adi):
+                    guvenlik_cevabi=input("seçtiğiniz güvenlik sorusunun cevabını giriniz")
+                    if(guvenlik_cevabi==str(Kullanci_liste[i].guvenlik_sorusu)):
+                        print("şifreniz {}".format(Kullanci_liste[i].sifre))
+                    else:
+                        print("hatalı seçim")
+                        break
+                else:
+                    continue
+        else:
+            break
+    elif(secim==5):
+                while(True):
+                    Kayit_adi=input("Kullancı adı belirleyiniz")
+                    Kayit_sifre=input("Kullanıcı sifresi belirleyiniz")
+                    print(Liste)
+                    soru_secim=int(input("güvenlik sorusu seçiniz"))
+                    print(Liste[soru_secim])
+                    kayit_guvenlik=input()
+                    Kullanici1=sf.Kullanici(Kayit_adi,Kayit_sifre,kayit_guvenlik)   
+                    Kullanci_liste.append(Kullanici1)
+                    cıkıs=input("cıkıs icin 1 e basınız")
+                    if(cıkıs=="1"):
+                        break
+                    else:  
+                        continue      
+    else:
+        continue
                          
     
             
